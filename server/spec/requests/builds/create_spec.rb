@@ -1,4 +1,4 @@
-RSpec.describe "Create Builds", :type => :request do
+RSpec.describe "POST /builds", :type => :request do
   it "creates a build" do
     post "/builds", params: { total_files: ['felan_spec.rb'], ci: 'travis', build_number: '1' }
 
