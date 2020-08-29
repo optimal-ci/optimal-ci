@@ -1,0 +1,10 @@
+matrix:
+  include:
+    - language: ruby
+			cache: bundler
+			rvm:
+				- 2.6.3
+      before_install:
+        - cd ruby/
+				- gem install bundler -v 2.1.4
+
