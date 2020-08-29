@@ -1,6 +1,7 @@
 FROM ruby:2.6.3-alpine
 
 ENV BUNDLER_VERSION=2.1.4
+ENV RAILS_ENV=production
 
 RUN apk add --update --no-cache \
       binutils-gold \
@@ -35,7 +36,7 @@ COPY Gemfile Gemfile.lock ./
 
 RUN bundle config build.nokogiri --use-system-libraries
 
-RUN bundle check || bundle install
+RUN bundle check || bundle install --without test development
 
 
 ENTRYPOINT ["bundle", "exec", "rails", "server",  "-b", "0.0.0.0"]
