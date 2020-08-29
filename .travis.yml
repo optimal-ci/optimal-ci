@@ -8,8 +8,9 @@ matrix:
       rvm:
         - 2.6.3
       script:
-        - cd ruby/
         - gem install bundler -v 2.1.4
+        - cd ruby/
+        - bundle install
         - bundle exec rspec
         - cd ../server/
         - bundle install
