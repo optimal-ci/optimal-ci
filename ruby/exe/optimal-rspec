@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'rspec/optimal'
+RSpec::Optimal::Runner.invoke(ARGS)
+
