@@ -21,7 +21,7 @@ module Optimal
 
         JSON.parse(response.body)
 
-      rescue RestClient::NotFound
+      rescue RestClient::NotFound, RestClient::Conflict
         return nil
       end
     end
