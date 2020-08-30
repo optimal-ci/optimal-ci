@@ -12,6 +12,8 @@ module Optimal
         response = ::RestClient.post(ENV['OPTIMAL_CI_URL'] + '/builds', {build_number: @provider.build_number, total_files: files, ci: @provider.name}, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
 
         response.code == 204
+      rescue RestClient::Conflict
+        true
       end
 
       def pop
@@ -21,7 +23,7 @@ module Optimal
 
         JSON.parse(response.body)
 
-      rescue RestClient::NotFound, RestClient::Conflict
+      rescue RestClient::NotFound
         return nil
       end
     end
