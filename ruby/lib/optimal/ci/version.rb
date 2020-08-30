@@ -1,5 +1,5 @@
 module Optimal
-  module Ci
+  module CI
     VERSION = "0.1.0"
   end
 end

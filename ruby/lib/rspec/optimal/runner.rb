@@ -1,5 +1,5 @@
 module RSpec
-  class Optimal
+  module Optimal
     class Runner < ::Optimal::CI::Runner
       def command
         'rspec'

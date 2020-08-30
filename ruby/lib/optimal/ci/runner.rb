@@ -1,5 +1,5 @@
 module Optimal
-  class CI
+  module CI
     class Runner
       def initialize(args = [])
         @args = args
