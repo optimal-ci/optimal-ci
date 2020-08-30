@@ -13,6 +13,14 @@ module Optimal
 
         response.code == 204
       end
+
+      def pop
+        response = ::RestClient.get(ENV['OPTIMAL_CI_URL'] + "/builds/#{@build_number}/get_one_file", { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+
+        return if response.code != 200
+
+        JSON.parse(response.body)
+      end
     end
   end
 end
