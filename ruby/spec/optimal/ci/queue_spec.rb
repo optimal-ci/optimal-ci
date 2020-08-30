@@ -1,6 +1,6 @@
 RSpec.describe Optimal::CI::Queue do
-  let(:build_number) { Faker::Number.number }
-  let(:queue) { described_class.new(build_number) }
+  let(:provider) { double(build_number: Faker::Number.number, name: 'travis') }
+  let(:queue) { described_class.new(provider) }
 
   describe "#push" do
     it 'sends files to the server' do
