@@ -16,4 +16,14 @@ RSpec.describe "POST /builds", :type => :request do
     post "/builds", params: { build_number: '1', ci: 'travis' }
     expect(response).to have_http_status(:unprocessable_entity)
   end
+
+  it "does not create duplicated builds" do
+    post "/builds", params: { total_files: ['felan_spec.rb'], ci: 'travis', build_number: '1' }
+
+    expect(response).to have_http_status(:no_content)
+
+    post "/builds", params: { total_files: ['felan_spec.rb'], ci: 'travis', build_number: '1' }
+
+    expect(response).to have_http_status(:conflict)
+  end
 end
