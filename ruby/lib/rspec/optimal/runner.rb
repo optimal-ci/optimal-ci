@@ -2,7 +2,7 @@ module RSpec
   module Optimal
     class Runner < ::Optimal::CI::Runner
       def command
-        'rspec'
+        'bundle exec rspec'
       end
 
       def dir

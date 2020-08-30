@@ -11,6 +11,17 @@ module Optimal
         end
       end
 
+      def run
+        provider = Optimal::CI::Provider.detect
+        queue = Optimal::CI::Queue.new(provider)
+
+        queue.push(total_files)
+
+        while files = queue.pop
+          `#{command} #{files.join(" ")}`
+        end
+      end
+
       def total_files
         return @total_files if @total_files
 
