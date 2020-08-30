@@ -18,7 +18,7 @@ module Optimal
         queue.push(total_files)
 
         while files = queue.pop
-          `#{command} #{files.join(" ")}`
+          system("#{command} #{files.join(' ')}")
         end
       end
 

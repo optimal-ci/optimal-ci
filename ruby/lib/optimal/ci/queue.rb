@@ -20,6 +20,9 @@ module Optimal
         return if response.code != 200
 
         JSON.parse(response.body)
+
+      rescue RestClient::NotFound
+        return nil
       end
     end
   end
