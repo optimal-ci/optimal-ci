@@ -2,7 +2,7 @@ require_relative 'lib/optimal/ci/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "optimal-ci"
-  spec.version       = Optimal::Ci::VERSION
+  spec.version       = Optimal::CI::VERSION
   spec.authors       = ["Mohsen Alizadeh"]
   spec.email         = ["mohsen@alizadeh.us"]
 
@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+  spec.add_dependency 'rest-client', '~> 2.1.0'
+  spec.add_development_dependency 'faker', '~> 2.13.0'
 end
