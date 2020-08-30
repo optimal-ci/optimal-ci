@@ -13,15 +13,18 @@ class BuildsController < ApplicationController
   end
 
   def get_one_file
-    build = Build.find_by_build_number(params[:build_number])
+    Build.transaction do
+      build = Build.find_by_build_number(params[:build_number])
 
-    return head :not_found if build.queue.empty?
+      return head :not_found if build.queue.empty?
 
-    files = Array.wrap(build.queue.first)
+      files = Array.wrap(build.queue.first)
 
-    build.queue = build.queue - files
-    build.save
+      build.queue = build.queue - files
+      build.processed += files
+      build.save
 
-    render json: files
+      render json: files
+    end
   end
 end

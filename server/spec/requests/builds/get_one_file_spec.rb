@@ -24,4 +24,8 @@ RSpec.describe "GET /builds/:build_number/get_one_file", :type => :request do
 
     expect(response).to have_http_status(:not_found)
   end
+
+  it "append the file to processed" do
+    expect { do_request }.to change { build.reload.processed.count }
+  end
 end
