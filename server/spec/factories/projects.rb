@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :project do
-    name { "MyString" }
-    token_digest { "MyString" }
+    name { Faker::App.name }
+    token { Faker::Crypto.sha256 }
   end
 end

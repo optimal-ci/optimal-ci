@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   before_action :authorize
 
   def authorize
-    raise NotAuthorized if request.headers['AUTHORIZATION'] != ENV['OPTIMAL_CI_TOKEN']
+    raise NotAuthorized if current_project.nil?
   end
 
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
@@ -16,5 +16,9 @@ class ApplicationController < ActionController::API
 
   def forbidden
     render json: 'forbidden', status: :forbidden
+  end
+
+  def current_project
+    @current_project ||= Project.find_by_token(request.headers['AUTHORIZATION'])
   end
 end
