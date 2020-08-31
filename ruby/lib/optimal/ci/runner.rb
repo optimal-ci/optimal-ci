@@ -26,7 +26,7 @@ module Optimal
 
         @end_time = Time.now.to_i
 
-        queue.report_duration(@end_with - @start_time)
+        queue.report_duration(@end_time - @start_time)
       end
 
       def total_files
