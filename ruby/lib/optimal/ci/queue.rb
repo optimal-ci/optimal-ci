@@ -1,15 +1,23 @@
 module Optimal
   module CI
     class Queue
-      def initialize(provider)
+      def initialize(provider, command_arguments_string = "")
         @provider = provider
+        @command_arguments_string = command_arguments_string
 
         raise "OPTIMAL_CI_URL is not valid ENV" if ENV['OPTIMAL_CI_URL'].nil?
         raise "OPTIMAL_CI_TOKEN is not valid ENV" if ENV['OPTIMAL_CI_TOKEN'].nil?
       end
 
       def push(files)
-        response = ::RestClient.post(ENV['OPTIMAL_CI_URL'] + '/builds', {build_number: @provider.build_number, total_files: files, ci: @provider.name}, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+        params = {
+          build_number: @provider.build_number,
+          total_files: files,
+          ci: @provider.name,
+          command_arguments_string: @command_arguments_string
+        }
+
+        response = ::RestClient.post(ENV['OPTIMAL_CI_URL'] + '/builds', params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
 
         response.code == 204
       rescue RestClient::Conflict
