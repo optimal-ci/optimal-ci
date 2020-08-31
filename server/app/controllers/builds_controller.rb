@@ -8,7 +8,8 @@ class BuildsController < ApplicationController
         ci:                 params[:ci],
         build_number:       params[:build_number],
         total_files_count:  params[:total_files].try(:count),
-        project:            current_project
+        project:            current_project,
+        command:            params[:command_arguments_string]
       )
     end
   end

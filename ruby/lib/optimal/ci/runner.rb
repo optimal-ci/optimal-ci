@@ -2,6 +2,7 @@ module Optimal
   module CI
     class Runner
       def initialize(args = [])
+        @command_arguments_string = args.join(" ")
         @args = args
 
         if @args.empty?
@@ -13,7 +14,7 @@ module Optimal
 
       def run
         provider = Optimal::CI::Provider.detect
-        queue = Optimal::CI::Queue.new(provider)
+        queue = Optimal::CI::Queue.new(provider, @command_arguments_string)
 
         queue.push(total_files)
 
