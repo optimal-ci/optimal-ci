@@ -1,6 +1,6 @@
 RSpec.describe "GET /builds/:build_number/get_one_file", :type => :request do
   let(:project) { create(:project) }
-  let(:build) { create(:build) }
+  let(:build) { create(:build, project: project) }
 
   def do_request
     get "/builds/#{build.build_number}/get_one_file", headers: { Authorization: project.token }

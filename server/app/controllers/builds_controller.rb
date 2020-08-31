@@ -7,7 +7,8 @@ class BuildsController < ApplicationController
         queue:              params[:total_files],
         ci:                 params[:ci],
         build_number:       params[:build_number],
-        total_files_count:  params[:total_files].try(:count)
+        total_files_count:  params[:total_files].try(:count),
+        project:            current_project
       )
     end
   end
