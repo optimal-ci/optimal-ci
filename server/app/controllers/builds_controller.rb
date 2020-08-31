@@ -12,7 +12,9 @@ class BuildsController < ApplicationController
         command:            params[:command_arguments_string]
       )
 
-      Node.create!(index: params[:node_index], build: build)
+      params[:total_nodes].to_i.times do |i|
+        Node.create!(index: i, build: build)
+      end
     end
   end
 

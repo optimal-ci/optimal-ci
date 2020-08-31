@@ -15,7 +15,7 @@ module Optimal
           total_files: files,
           ci: @provider.name,
           command_arguments_string: @command_arguments_string,
-          node_index: @provider.node_index
+          total_nodes: @provider.total_nodes
         }
 
         response = ::RestClient.post(ENV['OPTIMAL_CI_URL'] + '/builds', params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
