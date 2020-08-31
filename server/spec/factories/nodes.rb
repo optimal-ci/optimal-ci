@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :node do
     build { nil }
-    duration { 1 }
+    duration { nil }
+    index { 1 }
   end
 end

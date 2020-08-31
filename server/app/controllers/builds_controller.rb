@@ -35,5 +35,9 @@ class BuildsController < ApplicationController
   end
 
   def report_duration
+    build = Build.find_by(project: current_project, build_number: params[:build_number])
+
+    puts "params : #{params.inspect}"
+    Node.find_by(build_id: build.id, index: params[:node_index].to_i).update(duration: params[:duration])
   end
 end
