@@ -1,5 +1,5 @@
 RSpec.describe Optimal::CI::Queue do
-  let(:provider) { double(build_number: Faker::Number.number, name: 'travis') }
+  let(:provider) { double(build_number: Faker::Number.number, name: 'travis', node_index: 1) }
   let(:queue) { described_class.new(provider) }
 
   describe "#push" do

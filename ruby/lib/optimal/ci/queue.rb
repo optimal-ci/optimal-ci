@@ -14,7 +14,8 @@ module Optimal
           build_number: @provider.build_number,
           total_files: files,
           ci: @provider.name,
-          command_arguments_string: @command_arguments_string
+          command_arguments_string: @command_arguments_string,
+          node_index: @provider.node_index
         }
 
         response = ::RestClient.post(ENV['OPTIMAL_CI_URL'] + '/builds', params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
@@ -33,6 +34,15 @@ module Optimal
 
       rescue RestClient::NotFound
         return nil
+      end
+
+      def report_duration(duration)
+        params = {
+          duration: duration,
+          node_index: @provider.node_index
+        }
+
+        ::RestClient.patch(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/report_duration", params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
       end
     end
   end

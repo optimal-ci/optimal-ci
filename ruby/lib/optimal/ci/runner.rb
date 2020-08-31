@@ -18,9 +18,15 @@ module Optimal
 
         queue.push(total_files)
 
+        @start_time = Time.now.to_i
+
         while files = queue.pop
           system("#{command} #{files.join(' ')}")
         end
+
+        @end_time = Time.now.to_i
+
+        queue.report_duration(@end_with - @start_time)
       end
 
       def total_files

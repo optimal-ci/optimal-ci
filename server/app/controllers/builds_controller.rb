@@ -3,7 +3,7 @@ class BuildsController < ApplicationController
     Build.transaction do
       return head :conflict if Build.find_by_build_number(params[:build_number])
 
-      Build.create!(
+      build = Build.create!(
         queue:              params[:total_files],
         ci:                 params[:ci],
         build_number:       params[:build_number],
@@ -11,6 +11,8 @@ class BuildsController < ApplicationController
         project:            current_project,
         command:            params[:command_arguments_string]
       )
+
+      Node.create!(index: params[:node_index], build: build)
     end
   end
 
@@ -28,5 +30,8 @@ class BuildsController < ApplicationController
 
       render json: files
     end
+  end
+
+  def report_duration
   end
 end
