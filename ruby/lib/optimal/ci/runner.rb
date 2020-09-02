@@ -24,7 +24,7 @@ module Optimal
           while files = queue.pop
             system("#{command} #{files.join(' ')}")
           end
-
+          
           duration = Time.now.to_i - start_time
 
           queue.report_duration(duration)
