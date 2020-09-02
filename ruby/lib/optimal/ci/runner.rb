@@ -14,19 +14,26 @@ module Optimal
 
       def run
         provider = Optimal::CI::Provider.detect
-        queue = Optimal::CI::Queue.new(provider, @command_arguments_string)
 
-        queue.push(total_files)
+        if provider
+          queue = Optimal::CI::Queue.new(provider, @command_arguments_string)
+          queue.push(total_files)
 
-        @start_time = Time.now.to_i
+          start_time = Time.now.to_i
 
-        while files = queue.pop
-          system("#{command} #{files.join(' ')}")
+          while files = queue.pop
+            system("#{command} #{files.join(' ')}")
+          end
+
+          duration = Time.now.to_i - start_time
+
+          queue.report_duration(duration)
+
+          Optimal::CI::Logger.info("reporting duration : #{duration}")
+        else
+          Optimal::CI::Logger.info("provider not found")
+          system("#{command} #{@args.join(' ')}")
         end
-
-        @end_time = Time.now.to_i
-
-        queue.report_duration(@end_time - @start_time)
       end
 
       def total_files
