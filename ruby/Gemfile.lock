@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    optimal-ci (0.0.2)
+    optimal-ci (0.0.3)
       rest-client (~> 2.1.0)
 
 GEM
