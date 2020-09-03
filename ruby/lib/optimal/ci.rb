@@ -1,5 +1,6 @@
 require 'rest_client'
 require 'json'
+require 'rspec/core'
 require "optimal/ci/version"
 require "optimal/ci/runner"
 require "optimal/ci/queue"
