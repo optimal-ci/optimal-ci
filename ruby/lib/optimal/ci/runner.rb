@@ -22,7 +22,7 @@ module Optimal
           start_time = Time.now.to_i
 
           while files = queue.pop
-            system("#{command} #{files.join(' ')}")
+            run_examples(files)
           end
 
           duration = Time.now.to_i - start_time
@@ -34,6 +34,10 @@ module Optimal
           Optimal::CI::Logger.info("provider not found")
           system("#{command} #{@args.join(' ')}")
         end
+      end
+
+      def run_examples(examples)
+        raise "Not Implemented"
       end
 
       def total_files

@@ -12,6 +12,11 @@ module RSpec
       def files_end_with
         "_spec.rb"
       end
+
+      def run_examples(examples)
+        RSpec::Core::Runner.run(examples)
+        RSpec.clear_examples
+      end
     end
   end
 end
