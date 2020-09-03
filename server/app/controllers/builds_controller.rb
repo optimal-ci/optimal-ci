@@ -20,7 +20,7 @@ class BuildsController < ApplicationController
 
   def get_one_file
     Build.transaction do
-      build = Build.find_by_build_number(params[:build_number])
+      build = Build.find_by(project: current_project, build_number: params[:build_number])
 
       return head :not_found if build.queue.empty?
 
