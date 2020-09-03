@@ -21,5 +21,12 @@ RSpec.describe RSpec::Optimal::Runner do
       runner = described_class.new
       expect(runner.total_files).to match_array(["spec/mositala_spec.rb"])
     end
+
+    it "returns total files if a directory is passed" do
+      expect(Dir).to receive(:glob).and_return(["spec/mositala_spec.rb"])
+
+      runner = described_class.new(["spec/"])
+      expect(runner.total_files).to match_array(["spec/mositala_spec.rb"])
+    end
   end
 end

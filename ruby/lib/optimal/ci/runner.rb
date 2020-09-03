@@ -24,7 +24,7 @@ module Optimal
           while files = queue.pop
             system("#{command} #{files.join(' ')}")
           end
-          
+
           duration = Time.now.to_i - start_time
 
           queue.report_duration(duration)
@@ -45,7 +45,7 @@ module Optimal
           if path.end_with?(files_end_with)
             @total_files << path
           else
-            @total_files << Dir.glob("#{path}/**/*#{files_end_with}")
+            @total_files << Dir.glob("#{path.chomp("/")}/**/*#{files_end_with}")
           end
         end
 
