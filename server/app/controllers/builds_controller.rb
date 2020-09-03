@@ -1,7 +1,7 @@
 class BuildsController < ApplicationController
   def create
     Build.transaction do
-      return head :conflict if Build.find_by_build_number(params[:build_number])
+      return head :conflict if Build.find_by(project: current_project, build_number: params[:build_number])
 
       build = Build.create!(
         queue:              params[:total_files],
