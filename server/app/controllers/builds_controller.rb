@@ -39,4 +39,10 @@ class BuildsController < ApplicationController
 
     Node.find_by(build_id: build.id, index: params[:node_index].to_i).update(duration: params[:duration])
   end
+
+  def report_http_calls
+    build = Build.find_by(project: current_project, build_number: params[:build_number])
+
+    Node.find_by(build_id: build.id, index: params[:node_index].to_i).update(params.permit(:http_calls_count, :http_calls_time))
+  end
 end
