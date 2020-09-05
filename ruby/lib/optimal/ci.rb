@@ -11,6 +11,7 @@ require "optimal/ci/provider/base"
 require "optimal/ci/provider/travis"
 require "optimal/ci/provider/circle"
 require "optimal/ci/client"
+require "digest/md5"
 
 
 module Optimal

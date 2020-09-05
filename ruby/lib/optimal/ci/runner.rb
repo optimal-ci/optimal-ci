@@ -31,7 +31,7 @@ module Optimal
           while files = queue.pop
             example_time = measure { run_examples(files) }
             if files.count == 1
-              @measured_files[files.first] = [File.mtime(files.first).to_i, example_time]
+              @measured_files[files.first] = [checksum(files.first), example_time]
             end
           end
 
@@ -66,10 +66,14 @@ module Optimal
         files.flatten!
 
         files.each do |file|
-          @total_files[file] = File.mtime(file).to_i
+          @total_files[file] = checksum(file)
         end
 
         @total_files
+      end
+
+      def checksum(file)
+        Digest::MD5.hexdigest(File.read(file))
       end
     end
   end
