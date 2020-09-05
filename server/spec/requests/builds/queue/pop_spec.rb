@@ -3,7 +3,7 @@ RSpec.describe "GET /builds/:build_number/get_one_file", :type => :request do
   let(:build) { create(:build, project: project) }
 
   def do_request
-    get "/builds/#{build.build_number}/get_one_file", headers: { Authorization: project.token }
+    get "/builds/#{build.build_number}/queue/pop", headers: { Authorization: project.token }
   end
 
   it "returns one file from queue" do
