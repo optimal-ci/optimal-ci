@@ -22,8 +22,8 @@ class ApplicationController < ActionController::API
     @current_project ||= Project.find_by_token(request.headers['AUTHORIZATION'])
   end
 
-  def current_build
-    @current_build ||= Build.find_by(project: current_project, build_number: params[:build_number])
+  def current_build(lock: false)
+    @current_build ||= Build.lock(lock).find_by(project: current_project, build_number: params[:build_number])
   end
 
   def current_node
