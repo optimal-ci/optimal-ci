@@ -39,32 +39,16 @@ module Optimal
         return nil
       end
 
-      def report_duration(duration)
-        params = {
-          duration: duration,
-          node_index: @provider.node_index
-        }
-
-        Client.patch("/builds/#{@provider.build_number}/report_duration", params)
-      end
-
-      def report_files(files)
-        params = {
-          files: files,
-          node_index: @provider.node_index
-        }
-
-        Client.post("/builds/#{@provider.build_number}/report_files", params)
-      end
-
-      def report_http_calls
+      def report(duration, files)
         params = {
           http_calls_count: @http_calls_count,
           http_calls_time: @http_calls_time,
-          node_index: @provider.node_index
+          node_index: @provider.node_index,
+          files: files,
+          duration: duration,
         }
 
-        Client.patch("/builds/#{@provider.build_number}/report_http_calls", params)
+        Client.post("/builds/#{@provider.build_number}/report", params)
       end
     end
   end
