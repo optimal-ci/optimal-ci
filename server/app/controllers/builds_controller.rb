@@ -1,7 +1,7 @@
 class BuildsController < ApplicationController
   def create
     Build.transaction do
-      return head :conflict if Build.find_by(project: current_project, build_number: params[:build_number])
+      return head :conflict if current_build
 
       build = Build.create!(
         queue:              params[:total_files],
@@ -20,29 +20,23 @@ class BuildsController < ApplicationController
 
   def get_one_file
     Build.transaction do
-      build = Build.find_by(project: current_project, build_number: params[:build_number])
+      return head :not_found if current_build.queue.empty?
 
-      return head :not_found if build.queue.empty?
+      files = Array.wrap(current_build.queue.first)
 
-      files = Array.wrap(build.queue.first)
-
-      build.queue = build.queue - files
-      build.processed += files
-      build.save
+      current_build.queue = current_build.queue - files
+      current_build.processed += files
+      current_build.save
 
       render json: files
     end
   end
 
   def report_duration
-    build = Build.find_by(project: current_project, build_number: params[:build_number])
-
-    Node.find_by(build_id: build.id, index: params[:node_index].to_i).update(duration: params[:duration])
+    current_node.update(duration: params[:duration])
   end
 
   def report_http_calls
-    build = Build.find_by(project: current_project, build_number: params[:build_number])
-
-    Node.find_by(build_id: build.id, index: params[:node_index].to_i).update(params.permit(:http_calls_count, :http_calls_time))
+    current_node.update(params.permit(:http_calls_count, :http_calls_time))
   end
 end
