@@ -37,12 +37,8 @@ module Optimal
 
           duration = Time.now.to_i - start_time
 
-          queue.report_duration(duration)
-          queue.report_http_calls
-          Optimal::CI::Logger.info("reporting files : #{@measured_files}")
-          queue.report_files(@measured_files)
+          queue.report(duration, @measured_files)
 
-          Optimal::CI::Logger.info("reporting duration : #{duration}")
         else
           Optimal::CI::Logger.info("provider not found")
           system("#{command} #{@args.join(' ')}")

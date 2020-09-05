@@ -32,15 +32,10 @@ class BuildsController < ApplicationController
     end
   end
 
-  def report_duration
-    current_node.update(duration: params[:duration])
-  end
-
-  def report_http_calls
+  def report
+    current_node.update(duration: params[:duration].to_i)
     current_node.update(params.permit(:http_calls_count, :http_calls_time))
-  end
 
-  def report_files
     measured_files = {}
     params[:files].each do |filename, value|
       measured_files[filename + "_" + value[0]] = value[1]
