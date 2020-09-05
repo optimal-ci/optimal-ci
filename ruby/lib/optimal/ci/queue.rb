@@ -6,9 +6,6 @@ module Optimal
         @command_arguments_string = command_arguments_string
         @http_calls_count = 0
         @http_calls_time = 0.0
-
-        raise "OPTIMAL_CI_URL is not valid ENV" if ENV['OPTIMAL_CI_URL'].nil?
-        raise "OPTIMAL_CI_TOKEN is not valid ENV" if ENV['OPTIMAL_CI_TOKEN'].nil?
       end
 
       def push(files)
@@ -20,7 +17,7 @@ module Optimal
           total_nodes: @provider.total_nodes
         }
 
-        response = ::RestClient.post(ENV['OPTIMAL_CI_URL'] + '/builds', params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+        response = Client.post('/builds', params)
 
         response.code == 204
       rescue RestClient::Conflict
@@ -29,7 +26,7 @@ module Optimal
 
       def pop
         start = Time.now
-        response = ::RestClient.get(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/get_one_file", { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+        response = Client.get("/builds/#{@provider.build_number}/get_one_file")
 
         @http_calls_count += 1
         @http_calls_time += (Time.now - start).to_f
@@ -48,7 +45,7 @@ module Optimal
           node_index: @provider.node_index
         }
 
-        ::RestClient.patch(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/report_duration", params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+        Client.patch("/builds/#{@provider.build_number}/report_duration", params)
       end
 
       def report_http_calls
@@ -58,7 +55,7 @@ module Optimal
           node_index: @provider.node_index
         }
 
-        ::RestClient.patch(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/report_http_calls", params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+        Client.patch("/builds/#{@provider.build_number}/report_http_calls", params)
       end
     end
   end
