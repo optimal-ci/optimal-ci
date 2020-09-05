@@ -18,7 +18,7 @@ class BuildsController < ApplicationController
     end
   end
 
-  def get_one_file
+  def pop
     Build.transaction do
       return head :not_found if current_build.queue.empty?
 

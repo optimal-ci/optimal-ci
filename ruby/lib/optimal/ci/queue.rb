@@ -26,7 +26,7 @@ module Optimal
 
       def pop
         start = Time.now
-        response = Client.get("/builds/#{@provider.build_number}/get_one_file")
+        response = Client.get("/builds/#{@provider.build_number}/queue/pop")
 
         @http_calls_count += 1
         @http_calls_time += (Time.now - start).to_f
