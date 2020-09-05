@@ -2,23 +2,23 @@ module Optimal
   module CI
     class Client
       class << self
-        def post(path, params = {}, headers = {})
-          execute(:post, path, params, headers)
+        def post(path, payload = {})
+          execute(:post, path, payload)
         end
 
-        def get(path, params = {}, headers = {})
-          execute(:get, path, params, headers)
+        def get(path)
+          execute(:get, path)
         end
 
-        def patch(path, params = {}, headers = {})
-          execute(:patch, path, params, headers)
+        def patch(path, payload = {})
+          execute(:patch, path, payload)
         end
 
-        def execute(method, path, params, headers)
+        def execute(method, path, payload = {})
           url = ENV['OPTIMAL_CI_URL'] + path
-          headers.merge!({ Authorization: ENV['OPTIMAL_CI_TOKEN'], params: params })
+          headers = { Authorization: ENV['OPTIMAL_CI_TOKEN'] }
 
-          RestClient::Request.execute(method: method, url: url, timeout: 10, headers: headers)
+          RestClient::Request.execute(method: method, url: url, payload: payload, headers: headers)
         end
       end
     end
