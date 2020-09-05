@@ -44,9 +44,8 @@ class BuildsController < ApplicationController
     Build.transaction do
       return head :not_found if current_build.queue.empty?
 
-      files = Array.wrap(current_build.queue.first)
+      files = Array.wrap(current_build.queue.shift)
 
-      current_build.queue = current_build.queue - files
       current_build.processed += files
       current_build.save
 
