@@ -52,17 +52,22 @@ module Optimal
       def total_files
         return @total_files if @total_files
 
-        @total_files = []
+        @total_files = {}
+        files = []
 
         @paths.each do |path|
           if path.end_with?(files_end_with)
-            @total_files << path
+            files << path
           else
-            @total_files << Dir.glob("#{path.chomp("/")}/**/*#{files_end_with}")
+            files << Dir.glob("#{path.chomp("/")}/**/*#{files_end_with}")
           end
         end
 
-        @total_files.flatten!
+        files.flatten!
+
+        files.each do |file|
+          @total_files[file] = [File.mtime(file).to_i]
+        end
 
         @total_files
       end

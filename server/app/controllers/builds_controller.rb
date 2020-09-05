@@ -1,7 +1,7 @@
 class BuildsController < ApplicationController
   def create
     Build.transaction do
-      return head :conflict if current_build
+      return head :conflict if current_build(lock: true)
 
       build = Build.create!(
         queue:              params[:total_files],
