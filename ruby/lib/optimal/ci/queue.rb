@@ -6,9 +6,6 @@ module Optimal
         @command_arguments_string = command_arguments_string
         @http_calls_count = 0
         @http_calls_time = 0.0
-
-        raise "OPTIMAL_CI_URL is not valid ENV" if ENV['OPTIMAL_CI_URL'].nil?
-        raise "OPTIMAL_CI_TOKEN is not valid ENV" if ENV['OPTIMAL_CI_TOKEN'].nil?
       end
 
       def push(files)
