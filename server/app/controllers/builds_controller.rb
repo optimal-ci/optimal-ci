@@ -39,4 +39,17 @@ class BuildsController < ApplicationController
   def report_http_calls
     current_node.update(params.permit(:http_calls_count, :http_calls_time))
   end
+
+  def report_files
+    measured_files = {}
+    params[:files].each do |filename, value|
+      measured_files[filename + "_" + value[0]] = value[1]
+    end
+
+    Project.transaction do
+      files = current_project.files
+      files.merge!(measured_files)
+      current_project.update(files: files)
+    end
+  end
 end
