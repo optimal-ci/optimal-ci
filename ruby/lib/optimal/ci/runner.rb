@@ -52,7 +52,7 @@ module Optimal
       def total_files
         return @total_files if @total_files
 
-        @total_files = {}
+        @total_files = []
         files = []
 
         @paths.each do |path|
@@ -66,7 +66,7 @@ module Optimal
         files.flatten!
 
         files.each do |file|
-          @total_files[file] = [File.mtime(file).to_i]
+          @total_files << [file, File.mtime(file).to_i]
         end
 
         @total_files
