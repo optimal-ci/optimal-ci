@@ -48,6 +48,15 @@ module Optimal
         Client.patch("/builds/#{@provider.build_number}/report_duration", params)
       end
 
+      def report_files(files)
+        params = {
+          files: files,
+          node_index: @provider.node_index
+        }
+
+        Client.post("/builds/#{@provider.build_number}/report_files", params)
+      end
+
       def report_http_calls
         params = {
           http_calls_count: @http_calls_count,

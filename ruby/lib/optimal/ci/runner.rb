@@ -1,9 +1,16 @@
 module Optimal
   module CI
     class Runner
+      def measure(&block)
+        start = Time.now
+        block.call
+        (Time.now - start).to_f
+      end
+
       def initialize(args = [])
         @command_arguments_string = args.join(" ")
         @args = args
+        @measured_files = {}
 
         if @args.empty?
           @paths = [dir]
@@ -22,13 +29,18 @@ module Optimal
           start_time = Time.now.to_i
 
           while files = queue.pop
-            run_examples(files)
+            example_time = measure { run_examples(files) }
+            if files.count == 1
+              @measured_files[files.first] = [File.mtime(files.first).to_i, example_time]
+            end
           end
 
           duration = Time.now.to_i - start_time
 
           queue.report_duration(duration)
           queue.report_http_calls
+          Optimal::CI::Logger.info("reporting files : #{@measured_files}")
+          queue.report_files(@measured_files)
 
           Optimal::CI::Logger.info("reporting duration : #{duration}")
         else
