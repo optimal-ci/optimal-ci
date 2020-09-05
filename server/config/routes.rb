@@ -3,4 +3,5 @@ Rails.application.routes.draw do
 
   get '/builds/:build_number/get_one_file' => 'builds#get_one_file'
   patch '/builds/:build_number/report_duration' => 'builds#report_duration'
+  patch '/builds/:build_number/report_http_calls' => 'builds#report_http_calls'
 end

@@ -4,6 +4,8 @@ module Optimal
       def initialize(provider, command_arguments_string = "")
         @provider = provider
         @command_arguments_string = command_arguments_string
+        @http_calls_count = 0
+        @http_calls_time = 0.0
 
         raise "OPTIMAL_CI_URL is not valid ENV" if ENV['OPTIMAL_CI_URL'].nil?
         raise "OPTIMAL_CI_TOKEN is not valid ENV" if ENV['OPTIMAL_CI_TOKEN'].nil?
@@ -26,7 +28,11 @@ module Optimal
       end
 
       def pop
+        start = Time.now
         response = ::RestClient.get(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/get_one_file", { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+
+        @http_calls_count += 1
+        @http_calls_time += (Time.now - start).to_f
 
         return if response.code != 200
 
@@ -43,6 +49,16 @@ module Optimal
         }
 
         ::RestClient.patch(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/report_duration", params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
+      end
+
+      def report_http_calls
+        params = {
+          http_calls_count: @http_calls_count,
+          http_calls_time: @http_calls_time,
+          node_index: @provider.node_index
+        }
+
+        ::RestClient.patch(ENV['OPTIMAL_CI_URL'] + "/builds/#{@provider.build_number}/report_http_calls", params, { Authorization: ENV['OPTIMAL_CI_TOKEN'] })
       end
     end
   end

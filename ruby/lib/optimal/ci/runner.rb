@@ -28,6 +28,7 @@ module Optimal
           duration = Time.now.to_i - start_time
 
           queue.report_duration(duration)
+          queue.report_http_calls
 
           Optimal::CI::Logger.info("reporting duration : #{duration}")
         else

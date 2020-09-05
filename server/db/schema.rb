@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_175830) do
+ActiveRecord::Schema.define(version: 2020_09_05_074655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2020_08_31_175830) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "index"
+    t.integer "http_calls_count"
+    t.float "http_calls_time"
     t.index ["build_id"], name: "index_nodes_on_build_id"
   end
 
