@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_05_135417) do
+ActiveRecord::Schema.define(version: 2020_09_06_112346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_09_05_135417) do
     t.bigint "project_id"
     t.string "command"
     t.index ["build_number"], name: "index_builds_on_build_number"
+    t.index ["project_id", "build_number"], name: "index_builds_on_project_id_and_build_number", unique: true
     t.index ["project_id"], name: "index_builds_on_project_id"
   end
 
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(version: 2020_09_05_135417) do
     t.integer "index"
     t.integer "http_calls_count"
     t.float "http_calls_time"
+    t.index ["build_id", "index"], name: "index_nodes_on_build_id_and_index", unique: true
     t.index ["build_id"], name: "index_nodes_on_build_id"
   end
 
