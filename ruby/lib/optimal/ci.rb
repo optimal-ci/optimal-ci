@@ -12,6 +12,7 @@ require "optimal/ci/provider/travis"
 require "optimal/ci/provider/circle"
 require "optimal/ci/client"
 require "digest/md5"
+require "rspec/optimal/formatters/documentation_formatter"
 
 
 module Optimal

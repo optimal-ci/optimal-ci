@@ -37,6 +37,7 @@ module Optimal
 
           duration = Time.now.to_i - start_time
 
+          finished
           queue.report(duration, @measured_files)
 
         else
@@ -46,6 +47,10 @@ module Optimal
       end
 
       def run_examples(examples)
+        raise "Not Implemented"
+      end
+
+      def finished
         raise "Not Implemented"
       end
 
