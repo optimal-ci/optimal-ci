@@ -42,12 +42,13 @@ class BuildsController < ApplicationController
 
   def pop
     Build.transaction do
-      return head :not_found if current_build.queue.empty?
+      build = current_build(lock: true)
+      return head :not_found if build.queue.empty?
 
-      files = Array.wrap(current_build.queue.shift)
+      files = Array.wrap(build.queue.shift)
 
-      current_build.processed += files
-      current_build.save
+      build.processed += files
+      build.save
 
       render json: files
     end
@@ -63,9 +64,10 @@ class BuildsController < ApplicationController
     end
 
     Project.transaction do
-      files = current_project.files
+      project = current_project(lock: true)
+      files = project.files
       files.merge!(measured_files)
-      current_project.update(files: files)
+      project.update(files: files)
     end
   end
 end
