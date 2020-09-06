@@ -50,6 +50,8 @@ class BuildsController < ApplicationController
       build.processed += files
       build.save
 
+      logger.info("queue pop, project #{build.project_id}, build: #{build.id}, files: #{files.inspect}")
+
       render json: files
     end
   end
