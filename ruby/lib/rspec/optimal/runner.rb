@@ -10,13 +10,21 @@ module RSpec
       end
 
       def paths
-        return ['spec/'] if @args.empty?
+        @paths ||=
+          if @args.empty?
+            ['spec/']
+          else
+            ::RSpec::Core::Parser.parse(@args)[:files_or_directories_to_run]
+          end
+      end
 
-        ::RSpec::Core::Parser.parse(@args)[:files_or_directories_to_run]
+
+      def arguments
+        @args - @paths
       end
 
       def run_examples(examples)
-        args = ['--format', 'RSpec::Optimal::Formatters::DocumentationFormatter'] + examples
+        args = ['--format', 'RSpec::Optimal::Formatters::DocumentationFormatter'] + arguments + examples
         RSpec::Core::Runner.run(args)
         RSpec.clear_examples
       end
