@@ -11,6 +11,7 @@ module Optimal
         @command_arguments_string = args.join(" ")
         @args = args
         @measured_files = {}
+        @status = 0
       end
 
       def run
@@ -23,7 +24,7 @@ module Optimal
           start_time = Time.now.to_i
 
           while files = queue.pop
-            example_time = measure { run_examples(files) }
+            example_time = measure { @status += run_examples(files) }
             if files.count == 1
               @measured_files[files.first] = [checksum(files.first), example_time]
             end
@@ -33,7 +34,7 @@ module Optimal
 
           finished
           queue.report(duration, @measured_files)
-
+          exit(@status)
         else
           Optimal::CI::Logger.info("provider not found")
           system("#{command} #{@args.join(' ')}")
