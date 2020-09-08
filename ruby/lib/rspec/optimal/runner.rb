@@ -25,8 +25,10 @@ module RSpec
 
       def run_examples(examples)
         args = ['--format', 'RSpec::Optimal::Formatters::DocumentationFormatter'] + arguments + examples
-        RSpec::Core::Runner.run(args)
+        status = RSpec::Core::Runner.run(args)
         RSpec.clear_examples
+
+        return status
       end
 
       def finished
