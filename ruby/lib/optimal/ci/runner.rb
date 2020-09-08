@@ -11,12 +11,6 @@ module Optimal
         @command_arguments_string = args.join(" ")
         @args = args
         @measured_files = {}
-
-        if @args.empty?
-          @paths = [dir]
-        else
-          @paths = @args
-        end
       end
 
       def run
@@ -60,7 +54,7 @@ module Optimal
         @total_files = {}
         files = []
 
-        @paths.each do |path|
+        paths.each do |path|
           if path.end_with?(files_end_with)
             files << path
           else

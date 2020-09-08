@@ -13,7 +13,7 @@ require "optimal/ci/provider/circle"
 require "optimal/ci/client"
 require "digest/md5"
 require "rspec/optimal/formatters/documentation_formatter"
-
+require 'rspec/core/option_parser'
 
 module Optimal
   module CI
